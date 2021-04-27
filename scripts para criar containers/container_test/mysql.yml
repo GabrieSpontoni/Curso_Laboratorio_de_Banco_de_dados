@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: dev_mysql_test
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: default_schema
+    ports:
+      - 3309:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dev_pma_test
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8185:80
+
+  adminer:
+    container_name: dev_adminer_test
+    image: adminer
+    restart: always
+    ports:
+      - 8184:8080
